@@ -15,12 +15,12 @@ export const Footer = () => {
                 <div className="w-14 h-14 flex items-center justify-center">
             {/* <span className="text-primary font-display font-bold text-xl">I</span> */}
             <img 
-              src="/Logo 3.png" 
+              src="/logo.png" 
               alt="logo" 
               className="w-full h-full object-contain"
             />
           </div>
-              <span className="font-display text-xl font-semibold text-foreground">
+              <span className="font-display text-xl font-semibold text-foreground "style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
                 Imaging<span className="text-primary">pedia</span>
               </span>
             </Link>
