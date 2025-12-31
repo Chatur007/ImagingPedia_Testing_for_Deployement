@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-medical.jpg";
+import UpdatedHeroImage from "@/assets/Gemini_Generated_Image_cmg1ufcmg1ufcmg1.png";
 
 export const HeroSection = () => {
   return (
@@ -10,9 +11,9 @@ export const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src={heroImage}
+          src={UpdatedHeroImage}
           alt="Medical imaging background"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 hero-overlay" />
       </div>
