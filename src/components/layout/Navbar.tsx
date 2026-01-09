@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "Courses", path: "/courses" },
+  { name: "Tests", path: "/tests" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
 ];
