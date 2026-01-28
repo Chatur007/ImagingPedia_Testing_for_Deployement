@@ -48,7 +48,14 @@ router.post("/",async(req,res)=>{
         );
         
         console.log("Saved submission:", saved.rows[0]);
-        res.json(saved.rows[0]);
+        
+        // Return the data with consistent field names (improvement not improvements)
+        const result = {
+            ...saved.rows[0],
+            improvement: saved.rows[0].improvements
+        };
+        
+        res.json(result);
     }catch(error){
         console.error("Submission error:",error.message);
         console.error("Stack:", error.stack);

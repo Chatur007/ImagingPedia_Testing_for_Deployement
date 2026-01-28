@@ -169,13 +169,22 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
       console.error("Missing 'score' field in result");
       result.score = Math.floor(marks / 2);
     }
-    if (!result.hasOwnProperty("lost_marks") || result.lost_marks === undefined) {
-      console.error("Missing 'lost_marks' field in result");
-      result.lost_marks = "Evaluation incomplete";
+    
+    // Check if answer got full marks
+    const isPerfectScore = result.score >= marks;
+    
+    if (!result.hasOwnProperty("lost_marks") || result.lost_marks === undefined || typeof result.lost_marks !== 'string' || result.lost_marks.trim() === '') {
+      console.error("Missing or empty 'lost_marks' field in result");
+      result.lost_marks = isPerfectScore 
+        ? "Excellent! No marks lost. Your answer matches the model answer well." 
+        : "Evaluation incomplete";
     }
-    if (!result.hasOwnProperty("improvement") || result.improvement === undefined) {
-      console.error("Missing 'improvement' field in result");
-      result.improvement = "Please review the model answer";
+    if (!result.hasOwnProperty("improvement") || result.improvement === undefined || typeof result.improvement !== 'string' || result.improvement.trim() === '') {
+      console.error("Missing or empty 'improvement' field in result");
+      console.error("Current improvement value:", result.improvement);
+      result.improvement = isPerfectScore 
+        ? "Great work! Continue to be thorough and accurate in your descriptions of medical imaging findings." 
+        : "Review the model answer and identify key medical terms, findings, and anatomical details to include in your response.";
     }
 
     console.log("✓ Validation complete. Final Result:", result);
