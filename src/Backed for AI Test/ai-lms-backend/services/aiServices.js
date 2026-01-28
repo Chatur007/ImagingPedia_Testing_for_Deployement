@@ -118,7 +118,7 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
 
     // Validate message content exists and is not empty
     if (!messageContent || messageContent.trim() === "" || messageContent.trim() === "null") {
-      console.error("❌ Empty or null message content from AI");
+      console.error("Empty or null message content from AI");
       console.error("Full response data:", response.data);
       return {
         score: Math.floor(marks / 2),
@@ -139,7 +139,7 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
 
     // Additional validation
     if (!cleanedContent.startsWith("{") || !cleanedContent.endsWith("}")) {
-      console.error("❌ Content is not valid JSON format");
+      console.error("Content is not valid JSON format");
       console.error("Expected JSON object, got:", cleanedContent.substring(0, 100));
       return {
         score: Math.floor(marks / 2),
@@ -152,10 +152,10 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
     let result;
     try {
       result = JSON.parse(cleanedContent);
-      console.log("✓ JSON Parsed Successfully");
+      console.log("JSON Parsed Successfully");
       console.log("Parsed Result:", result);
     } catch (parseError) {
-      console.error("❌ JSON Parse Error:", parseError.message);
+      console.error("JSON Parse Error:", parseError.message);
       console.error("Failed to parse:", cleanedContent);
       return {
         score: Math.floor(marks / 2),
@@ -166,15 +166,15 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
 
     // Validate result has required fields
     if (!result.hasOwnProperty("score") || result.score === undefined) {
-      console.error("❌ Missing 'score' field in result");
+      console.error("Missing 'score' field in result");
       result.score = Math.floor(marks / 2);
     }
     if (!result.hasOwnProperty("lost_marks") || result.lost_marks === undefined) {
-      console.error("❌ Missing 'lost_marks' field in result");
+      console.error("Missing 'lost_marks' field in result");
       result.lost_marks = "Evaluation incomplete";
     }
     if (!result.hasOwnProperty("improvement") || result.improvement === undefined) {
-      console.error("❌ Missing 'improvement' field in result");
+      console.error("Missing 'improvement' field in result");
       result.improvement = "Please review the model answer";
     }
 
@@ -183,7 +183,7 @@ IMPORTANT: Return ONLY the JSON object, nothing else. No markdown, no code block
 
     return result;
   } catch (error) {
-    console.error("❌ FATAL Evaluation error:", error.message);
+    console.error("FATAL Evaluation error:", error.message);
     console.error("Error details:", error.response?.data || error.stack);
 
     // Return default response instead of throwing

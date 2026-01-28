@@ -8,10 +8,18 @@ import submissionRoutes from "./routes/submission.js";
 import studentRoutes from "./routes/students.js";
 import subjectRoutes from "./routes/subjects.js";
 
-const port =3000;
+const port =process.env.PORT || 3000;
 const app=express();
 
-app.use(cors());
+//app.use(cors());
+
+app.use(cors({
+origin: [
+"http://localhost:3000",
+"https://imagingpedia-testing.vercel.app/"
+],
+credentials: true
+}));
 app.use(express.json());
 
 app.use("/questions",questionRoutes);
