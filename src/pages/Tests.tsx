@@ -175,6 +175,7 @@ const Tests = () => {
     if (!url) return "";
     if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("blob:")) return url;
     if (url.startsWith("/uploads/")) return `${API_BASE_URL}${url}`;
+    if (!url.includes("/")) return `${API_BASE_URL}/uploads/${url}`;
     return url;
   };
 

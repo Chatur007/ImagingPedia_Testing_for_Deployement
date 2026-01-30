@@ -251,7 +251,11 @@ const AdminQuestions = () => {
   const resolveImageUrl = (url: string) => {
     if (!url) return "";
     if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("blob:")) return url;
+    // If stored as '/uploads/...' prefix with API base
     if (url.startsWith("/uploads/")) return `${API_BASE_URL}${url}`;
+    // If stored as bare filename (e.g. 'abc.png'), assume it's in uploads
+    if (!url.includes("/")) return `${API_BASE_URL}/uploads/${url}`;
+    // Otherwise return as-is
     return url;
   };
 
