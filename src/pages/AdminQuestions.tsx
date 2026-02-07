@@ -62,6 +62,8 @@ const AdminQuestions = () => {
     };
   }, [selectedFile, imagePreview]);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [newSubjectName, setNewSubjectName] = useState("");
+  const [isCreatingSubject, setIsCreatingSubject] = useState(false);
 
   
   const ADMIN_PASSWORD = "admin123"; 
@@ -232,6 +234,60 @@ const AdminQuestions = () => {
     }
   };
 
+  const handleDeleteSubject = async (id: number, subjectName: string) => {
+    if (window.confirm(`Are you sure you want to delete the subject "${subjectName}"? This will also delete all questions associated with it.`)) {
+      try {
+        const response = await fetch(`${API_BASE_URL}/subjects/${id}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          alert("Subject deleted successfully!");
+          fetchSubjects();
+          fetchQuestions();
+        } else {
+          const errorData = await response.json();
+          alert("Error: " + (errorData.error || "Failed to delete subject"));
+        }
+      } catch (error) {
+        console.error("Error deleting subject:", error);
+        alert("Failed to delete subject");
+      }
+    }
+  };
+
+  const handleCreateSubject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!newSubjectName.trim()) {
+      alert("Please enter a subject name");
+      return;
+    }
+
+    setIsCreatingSubject(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/subjects`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject_name: newSubjectName }),
+      });
+
+      if (response.ok) {
+        alert("Subject created successfully!");
+        setNewSubjectName("");
+        fetchSubjects();
+      } else {
+        const errorData = await response.json();
+        alert("Error: " + (errorData.error || "Failed to create subject"));
+      }
+    } catch (error) {
+      console.error("Error creating subject:", error);
+      alert("Failed to create subject");
+    } finally {
+      setIsCreatingSubject(false);
+    }
+  };
+
   const handleCancel = () => {
     setEditingId(null);
     setFormData({
@@ -344,6 +400,66 @@ const AdminQuestions = () => {
               </div>
 
               <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                {/* Subjects Management Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="md:col-span-3 mb-8"
+                >
+                  <Card className="p-6">
+                    <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+                      <Plus size={24} />
+                      Manage Subjects
+                    </h2>
+                    
+                    {/* Add Subject Form */}
+                    <div className="mb-8 p-4 rounded-lg bg-accent/50 border border-border/50">
+                      <h3 className="text-lg font-semibold text-foreground mb-4">Add New Subject</h3>
+                      <form onSubmit={handleCreateSubject} className="flex gap-2">
+                        <Input
+                          type="text"
+                          placeholder="Enter subject name (e.g., Mathematics, Physics)"
+                          value={newSubjectName}
+                          onChange={(e) => setNewSubjectName(e.target.value)}
+                          className="flex-1"
+                        />
+                        <Button
+                          type="submit"
+                          disabled={isCreatingSubject}
+                          className="whitespace-nowrap"
+                        >
+                          {isCreatingSubject ? "Creating..." : "Add Subject"}
+                        </Button>
+                      </form>
+                    </div>
+
+                    {/* Subjects List */}
+                    <h3 className="text-lg font-semibold text-foreground mb-4">Existing Subjects ({subjects.length})</h3>
+                    {subjects.length === 0 ? (
+                      <p className="text-muted-foreground">No subjects available. Create your first subject above!</p>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {subjects.map((subject) => (
+                          <div
+                            key={subject.id}
+                            className="flex items-center justify-between p-4 rounded-lg border border-border/50 hover:bg-accent/50 transition"
+                          >
+                            <span className="font-medium text-foreground">{subject.subject_name}</span>
+                            <button
+                              onClick={() => handleDeleteSubject(subject.id, subject.subject_name)}
+                              className="p-2 hover:bg-red-500/10 rounded transition"
+                              title="Delete subject"
+                            >
+                              <Trash2 size={18} className="text-red-500" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                </motion.div>
+
                 {/* Form Section */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}

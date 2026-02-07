@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import AdminQuestions from "./pages/AdminQuestions";
+import AdminCourses from "./pages/AdminCourses";
 import RequireAuth from "@/components/RequireAuth";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin/questions" element={<AdminQuestions />} />
+            <Route path="/admin/courses" element={<AdminCourses />} />
             <Route
               path="/dashboard"
               element={

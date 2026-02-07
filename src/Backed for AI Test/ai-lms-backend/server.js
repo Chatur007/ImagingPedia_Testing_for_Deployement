@@ -7,6 +7,7 @@ import questionRoutes from "./routes/questions.js";
 import submissionRoutes from "./routes/submission.js";
 import studentRoutes from "./routes/students.js";
 import subjectRoutes from "./routes/subjects.js";
+import courseRoutes from "./routes/courses.js";
 import path from "path";
 import fs from "fs";
 
@@ -39,6 +40,7 @@ app.use("/questions",questionRoutes);
 app.use("/submission",submissionRoutes);
 app.use("/students",studentRoutes);
 app.use("/subjects",subjectRoutes);
+app.use("/courses",courseRoutes);
 
 
 app.listen(port,'0.0.0.0',()=>{
