@@ -23,7 +23,7 @@ origin: [
 "http://localhost:5173",
 "http://localhost:8080",
 "http://localhost:8081",
-"https://imaging-pedia-testing-for-deployeme.vercel.app/",
+"https://imaging-pedia-testing-for-deployeme.vercel.app",
 "https://imagingpediatestingfordeployement-production.up.railway.app"
 ],
 credentials: true
@@ -35,6 +35,11 @@ if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 app.use("/uploads", express.static(uploadsDir));
+
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.json({ message: "Server is running" });
+});
 
 app.use("/questions",questionRoutes);
 app.use("/submission",submissionRoutes);
