@@ -1,7 +1,4 @@
--- Database Schema for Courses Management System
--- Execute these SQL commands in your PostgreSQL database
 
--- 0. Create admins table (for admin authentication)
 CREATE TABLE IF NOT EXISTS admins (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -11,7 +8,7 @@ CREATE TABLE IF NOT EXISTS admins (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 1. Create courses table
+
 CREATE TABLE IF NOT EXISTS courses (
     id SERIAL PRIMARY KEY,
     course_name VARCHAR(255) NOT NULL,
@@ -21,7 +18,7 @@ CREATE TABLE IF NOT EXISTS courses (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Create course_videos table (for YouTube videos)
+
 CREATE TABLE IF NOT EXISTS course_videos (
     id SERIAL PRIMARY KEY,
     course_id INTEGER NOT NULL,
@@ -32,7 +29,7 @@ CREATE TABLE IF NOT EXISTS course_videos (
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 
--- 3. Create course_images table (for additional course images/resources)
+
 CREATE TABLE IF NOT EXISTS course_images (
     id SERIAL PRIMARY KEY,
     course_id INTEGER NOT NULL,
@@ -43,7 +40,7 @@ CREATE TABLE IF NOT EXISTS course_images (
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 
--- Sample data for testing
+
 INSERT INTO courses (course_name, course_description, course_image) VALUES
     ('Radiology Fundamentals', 'Learn the basics of radiological imaging techniques and interpretation', 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop'),
     ('Cardiology Essentials', 'Understanding cardiac anatomy, physiology, and common pathologies', 'https://images.unsplash.com/photo-1631217314989-5e6ab0469fba?w=800&h=600&fit=crop'),
@@ -51,7 +48,7 @@ INSERT INTO courses (course_name, course_description, course_image) VALUES
     ('Orthopedics Mastery', 'Master musculoskeletal imaging and orthopedic procedures', 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop')
 ON CONFLICT DO NOTHING;
 
--- Sample course videos
+
 INSERT INTO course_videos (course_id, video_title, video_url, video_order) VALUES
     (1, 'Chest X-ray Basics', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 1),
     (1, 'CT Scan Interpretation', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 2),
@@ -59,7 +56,7 @@ INSERT INTO course_videos (course_id, video_title, video_url, video_order) VALUE
     (2, 'Cardiac Pathologies', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 2)
 ON CONFLICT DO NOTHING;
 
--- Sample course images
+
 INSERT INTO course_images (course_id, image_url, image_title, image_order) VALUES
     (1, 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop', 'Radiology Equipment', 1),
     (1, 'https://images.unsplash.com/photo-1631217314989-5e6ab0469fba?w=400&h=300&fit=crop', 'X-ray Examples', 2),
@@ -67,7 +64,7 @@ INSERT INTO course_images (course_id, image_url, image_title, image_order) VALUE
     (2, 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop', 'ECG Readings', 2)
 ON CONFLICT DO NOTHING;
 
--- Create indexes for better performance
+
 CREATE INDEX IF NOT EXISTS idx_admins_username ON admins(username);
 CREATE INDEX IF NOT EXISTS idx_courses_created_at ON courses(created_at);
 CREATE INDEX IF NOT EXISTS idx_course_videos_course_id ON course_videos(course_id);

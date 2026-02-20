@@ -1,13 +1,9 @@
--- Database Schema for AI LMS Test System
--- Execute these SQL commands in your PostgreSQL database
 
--- 1. Create subjects table
 CREATE TABLE IF NOT EXISTS subjects (
     id SERIAL PRIMARY KEY,
     subject_name VARCHAR(20) NOT NULL
 );
 
--- 2. Create questions table
 CREATE TABLE IF NOT EXISTS questions (
     id SERIAL PRIMARY KEY,
     subject_id INTEGER NOT NULL,
@@ -19,7 +15,7 @@ CREATE TABLE IF NOT EXISTS questions (
     FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE
 );
 
--- 3. Create student table (note: singular 'student')
+
 CREATE TABLE IF NOT EXISTS student (
     id SERIAL PRIMARY KEY,
     student_name VARCHAR(20) NOT NULL,
@@ -29,7 +25,7 @@ CREATE TABLE IF NOT EXISTS student (
     FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE
 );
 
--- 4. Create submissions table
+
 CREATE TABLE IF NOT EXISTS submissions (
     id SERIAL PRIMARY KEY,
     student_id INTEGER NOT NULL,
@@ -43,8 +39,6 @@ CREATE TABLE IF NOT EXISTS submissions (
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
--- Sample data for testing
--- Insert sample subjects
 INSERT INTO subjects (subject_name) VALUES
     ('Radiology'),
     ('Cardiology'),
@@ -52,7 +46,6 @@ INSERT INTO subjects (subject_name) VALUES
     ('Orthopedics')
 ON CONFLICT DO NOTHING;
 
--- Insert sample questions (replace URLs with actual image URLs)
 INSERT INTO questions (subject_id, question_text, question_image, model_answer, max_marks) VALUES
     (1, 'Describe the chest X-ray findings', 'https://radiologybusiness.com/sites/default/files/2022-09/Breast%20MRI%20invasive%20ductal%20carcinoma_Computer-aided_volumetry_images_pre%20and%20post%20chemo_partial_response_RSNA.jpg', 
      'The chest X-ray shows a large area of increased opacity in the right lower lobe, consistent with pneumonia. There is an air bronchogram visible, and the right costophrenic angle appears blunted, suggesting possible pleural effusion. The cardiac silhouette is normal in size.', 
@@ -71,7 +64,6 @@ INSERT INTO questions (subject_id, question_text, question_image, model_answer, 
      10)
 ON CONFLICT DO NOTHING;
 
--- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_questions_subject_id ON questions(subject_id);
 CREATE INDEX IF NOT EXISTS idx_student_subject_id ON student(subject_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_student_id ON submissions(student_id);
