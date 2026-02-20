@@ -25,7 +25,7 @@ origin: [
 "http://localhost:8081",
 "https://imagingpedia-testing.vercel.app",
 "https://imagingpedia-testing.onrender.com",
-"https://imagingpedia-testing.railway.app"
+"https://imagingpediatestingfordeployement-production.up.railway.app"
 ],
 credentials: true
 }));
